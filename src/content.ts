@@ -110,7 +110,7 @@ export const marcos = {
   antetitulo: 'Cruce de marcos',
   titulo: 'Tres marcos, una sola rejilla.',
   cuerpo:
-    'El mapeo NIS2 ↔ ENS ↔ ISO 27001 permite evaluar un control una vez y reutilizar la evidencia en los tres. RGPD, DORA y CIS Controls v8 forman la capa transversal.',
+    'El mapeo NIS2 ↔ ENS ↔ ISO 27001 permite evaluar un control una vez y reutilizar la evidencia en los tres. RGPD, DORA y CIS Controls v8 forman la capa transversal. Las 73 medidas ENS, contrastadas con el Anexo II del BOE.',
   nombres: ['NIS2', 'ENS', 'ISO 27001'] as const,
   cifras: [
     {n: 15, texto: 'controles NIS2'},
@@ -139,21 +139,21 @@ export const modulos = {
       etiqueta: 'SOC',
       titulo: 'Rendimiento del SOC',
       cuerpo:
-        'MTTD, MTTA, MTTC y MTTR desde la exportación de incidentes, cumplimiento de SLA por severidad, cobertura MITRE ATT&CK por táctica y madurez de 12 verticales enlazadas a NIS2 21.2.',
+        'MTTD, MTTA, MTTC y MTTR desde la exportación de incidentes, cumplimiento de SLA por severidad, madurez MITRE ATT&CK por táctica con playbooks y export a Navigator, y 20 verticales con baremo 0-5 (EDR/XDR, MDM, SASE, ZTNA, GRC…) enlazadas a NIS2.',
       codigo: 'smc soc incidentes.csv',
     },
     {
       id: 'tecnologias',
       etiqueta: 'Tecnologías',
-      titulo: 'Caducidades a tiempo',
-      cuerpo: 'Registro de licencias, soporte y certificados, con aviso antes de que caduquen y alerta de licencias sobredesplegadas.',
+      titulo: 'Tecnologías, reglas y suscripciones',
+      cuerpo: 'Licencias, soporte y certificados con aviso de caducidad; estado de las reglas de cada dispositivo (y por qué no se puede evaluar cuando no se puede); suscripciones con uso y coste.',
       codigo: 'smc expiring registro.yaml --days 90',
     },
     {
       id: 'vulnerabilidades',
       etiqueta: 'Vulnerabilidades',
       titulo: 'CVEs con SLA',
-      cuerpo: 'CVEs abiertos con plazo de remediación, priorizados con KEV, EPSS y CVSS, y playbooks por tecnología y por caso de uso.',
+      cuerpo: 'CVEs abiertos con plazo de remediación, priorizados con KEV, EPSS y CVSS, playbooks por caso de uso y 28 protocolos con búsquedas en NVD, CVE Details y ENISA.',
       codigo: 'smc vulns tracker.csv',
     },
     {
@@ -173,9 +173,9 @@ export const modulos = {
     {
       id: 'dashboard',
       etiqueta: 'Informes',
-      titulo: 'Dashboard multicliente',
-      cuerpo: 'Informe HTML autocontenido por cliente y un dashboard estático con todos los clientes en semáforo: se abre en local, sin servidor.',
-      codigo: 'smc dashboard clientes/ -o panel/',
+      titulo: 'Informes, dashboard y mapa 3D',
+      cuerpo: 'Informe HTML por cliente, dashboard estático multicliente y un visor 3D de la red con el semáforo de cada dispositivo: todo se abre en local, sin servidor ni CDN.',
+      codigo: 'smc visor mapa.json -o visor.html',
     },
   ],
 };
@@ -188,7 +188,7 @@ export const cierre = {
     'Ejecución local u on-prem, en la UE.',
     'Catálogos en YAML, versionados y revisables.',
   ],
-  instalar: ['pip install -e .', 'smc validate', 'smc gap cliente.yaml -o informe.md', 'smc report cliente.yaml -o informe.html', 'smc dashboard clientes/ -o panel/'],
+  instalar: ['pip install -e .', 'smc validate', 'smc gap cliente.yaml -o informe.md', 'smc report cliente.yaml -o informe.html', 'smc dashboard clientes/ -o panel/', 'smc visor mapa.json -o visor.html'],
   muro: 'Toda la sala en verde',
   grupos: [
     {marco: 'NIS2', n: 15, texto: 'controles'},
