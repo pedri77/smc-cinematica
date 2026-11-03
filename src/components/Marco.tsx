@@ -119,7 +119,7 @@ export function Cierre() {
         </div>
       </div>
 
-      <div className="relative mt-[12svh] flex justify-center">
+      <div className="relative z-10 mt-[12svh] flex justify-center">
         <a
           data-aparece
           href={marca.repo}
@@ -130,7 +130,7 @@ export function Cierre() {
         </a>
       </div>
 
-      <div className="relative mt-[10svh] pb-[0.04em]" aria-hidden="true">
+      <div className="pointer-events-none relative mt-[10svh] pb-[0.04em] select-none" aria-hidden="true">
         <span ref={marcaRef} className="inline-block font-mono leading-[0.9] font-bold whitespace-nowrap text-[#16301f] [text-shadow:0_0_80px_rgb(60_245_138/0.18)]">
           {marca.corto}
         </span>
