@@ -5,19 +5,22 @@ import {enCadaFotograma} from '../lib/scroll';
 
 /**
  * Sección 4 · Módulos · patrón 6 (carrete horizontal fijado) · alto 360 svh
- * Seis consolas de la sala pasan de lado: SOC, tecnologías, vulnerabilidades, red, normativa e
- * informes. La más cercana a la línea de foco (62 % del ancho) se ve nítida; el instrumento
+ * Nueve consolas de la sala pasan de lado: SOC, ofensiva, IA, tecnologías, vulnerabilidades, red,
+ * normativa, PMO e informes. La más cercana a la línea de foco (62 % del ancho) se ve nítida; el instrumento
  * dibujado dentro de cada tarjeta se desplaza contra su marco (parallax).
  *
  * Guion de scroll (p):
- *   0.04 – 0.96  el carrete recorre todo su ancho (lineal); contador 01 / 06 y barra siguen
+ *   0.04 – 0.96  el carrete recorre todo su ancho (lineal); contador 01 / 09 y barra siguen
  *   fuera de foco  opacidad 1 → 0.45 y escala 1 → 0.94 según la distancia a la línea de foco
  */
 
-const ALTO_VH = 360;
+const ALTO_VH = 480;
 const BASE_REPO = `${marca.repo}/tree/main/`;
 const CARPETA: Record<string, string> = {
   soc: 'soc',
+  ofensiva: 'offensive',
+  ia: 'frameworks/ai-act',
+  pmo: 'pmo',
   tecnologias: 'technologies',
   vulnerabilidades: 'vulnerabilities',
   red: 'network',
@@ -51,6 +54,66 @@ function Instrumento({id}: {id: string}) {
               </g>
             );
           })}
+        </g>
+      );
+    case 'ofensiva':
+      return (
+        <g>
+          {['RECON', 'ACCESO', 'EJECUCIÓN', 'LATERAL', 'EXFILTRAR'].map((t, i) => {
+            const det = [V, V, R, A, V][i];
+            return (
+              <g key={t}>
+                <text x="20" y={50 + i * 38} {...mono}>
+                  {t}
+                </text>
+                <rect x="150" y={38 + i * 38} width="110" height="16" rx="3" fill="#121820" />
+                <rect x="150" y={38 + i * 38} width={[100, 80, 30, 60, 95][i]} height="16" rx="3" fill={det} fillOpacity="0.85" />
+                <circle cx="285" cy={46 + i * 38} r="7" fill="none" stroke={det} strokeWidth="2" />
+                {det === V && <path d={`M281 ${46 + i * 38} l3 3 l5 -6`} fill="none" stroke={V} strokeWidth="2" />}
+              </g>
+            );
+          })}
+        </g>
+      );
+    case 'ia':
+      return (
+        <g>
+          {[
+            {l: 'PROHIBIDO', w: 100, c: R},
+            {l: 'ALTO', w: 150, c: A},
+            {l: 'LIMITADO', w: 200, c: C},
+            {l: 'MÍNIMO', w: 250, c: V},
+          ].map((n, i) => (
+            <g key={n.l}>
+              <rect x={160 - n.w / 2} y={30 + i * 44} width={n.w} height="34" rx="4" fill={n.c} fillOpacity="0.14" stroke={n.c} strokeWidth="2" />
+              <text x="160" y={52 + i * 44} textAnchor="middle" {...mono} fill={n.c}>
+                {n.l}
+              </text>
+            </g>
+          ))}
+          <text x="160" y="222" textAnchor="middle" {...mono}>
+            RIA · 2027-12-02
+          </text>
+        </g>
+      );
+    case 'pmo':
+      return (
+        <g>
+          {[
+            {x: 20, w: 90, c: V},
+            {x: 70, w: 110, c: V},
+            {x: 140, w: 80, c: A},
+            {x: 190, w: 100, c: C},
+            {x: 230, w: 70, c: C},
+          ].map((b, i) => (
+            <rect key={i} x={b.x} y={44 + i * 24} width={b.w} height="14" rx="3" fill={b.c} fillOpacity="0.8" />
+          ))}
+          <line x1="175" y1="36" x2="175" y2="168" stroke={R} strokeWidth="1.5" strokeDasharray="4 4" />
+          <polyline points="20,215 80,205 140,192 200,184 260,170 300,162" fill="none" stroke={V} strokeWidth="2.5" />
+          <polyline points="20,215 80,208 140,198 200,194 260,186 300,180" fill="none" stroke={A} strokeWidth="2" strokeDasharray="5 4" />
+          <text x="20" y="232" {...mono}>
+            CPI 0.96 · SPI 0.92
+          </text>
         </g>
       );
     case 'tecnologias':

@@ -132,15 +132,29 @@ export const marcos = {
 export const modulos = {
   antetitulo: 'Módulos',
   titulo: 'Toda la sala, no solo el cumplimiento.',
-  cuerpo: 'El SOC, las tecnologías, las vulnerabilidades, la red y la normativa, enlazados a los mismos controles.',
+  cuerpo: 'El SOC, la seguridad ofensiva, la IA, las tecnologías, las vulnerabilidades, la red, la normativa y el proyecto, enlazados a los mismos controles.',
   tarjetas: [
     {
       id: 'soc',
       etiqueta: 'SOC',
       titulo: 'Rendimiento del SOC',
       cuerpo:
-        'MTTD, MTTA, MTTC y MTTR desde la exportación de incidentes, cumplimiento de SLA por severidad, madurez MITRE ATT&CK por táctica con playbooks y export a Navigator, y 20 verticales con baremo 0-5 (EDR/XDR, MDM, SASE, ZTNA, GRC…) enlazadas a NIS2.',
+        'MTTD, MTTA, MTTC y MTTR desde la exportación de incidentes, cumplimiento de SLA por severidad, madurez MITRE ATT&CK por táctica con playbooks y export a Navigator, y 22 verticales con baremo 0-5 (EDR/XDR, identidad, dato con DSPM y DLP, SASE, ZTNA, GRC, IA…) enlazadas a NIS2.',
       codigo: 'smc soc incidentes.csv',
+    },
+    {
+      id: 'ofensiva',
+      etiqueta: 'Ofensiva',
+      titulo: 'Pentest y purple team',
+      cuerpo: 'Hallazgos de pentest con plazo de corrección y retest: si el retest falla, vuelve a abierto. Ejercicios purple por técnica ATT&CK con detección y mejoras, que suben la madurez MITRE solo cuando la técnica se detecta de verdad.',
+      codigo: 'smc purple ejercicios.yaml',
+    },
+    {
+      id: 'ia',
+      etiqueta: 'IA',
+      titulo: 'Reglamento de IA y agentes',
+      cuerpo: 'Inventario de sistemas de IA con su rol y nivel de riesgo, 31 obligaciones del RIA con las fechas del Ómnibus Digital y revisión de seguridad de agentes con OWASP LLM Top 10 y MITRE ATLAS. No es asesoramiento jurídico.',
+      codigo: 'smc ai inventario.yaml',
     },
     {
       id: 'tecnologias',
@@ -171,6 +185,13 @@ export const modulos = {
       codigo: 'smc refs NIS2-21.2.b',
     },
     {
+      id: 'pmo',
+      etiqueta: 'PMO',
+      titulo: 'Proyecto, horas y presupuesto',
+      cuerpo: 'Tareas ligadas a cada brecha, horas por rol, costes y presupuesto por partida, valor ganado (CPI y SPI), hitos exportables a calendario .ics y riesgos del proyecto.',
+      codigo: 'smc pmo proyecto.yaml --ics',
+    },
+    {
       id: 'dashboard',
       etiqueta: 'Informes',
       titulo: 'Informes, dashboard y mapa 3D',
@@ -188,13 +209,14 @@ export const cierre = {
     'Ejecución local u on-prem, en la UE.',
     'Catálogos en YAML, versionados y revisables.',
   ],
-  instalar: ['pip install -e .', 'smc validate', 'smc gap cliente.yaml -o informe.md', 'smc report cliente.yaml -o informe.html', 'smc dashboard clientes/ -o panel/', 'smc visor mapa.json -o visor.html'],
+  instalar: ['pip install -e .', 'smc validate', 'smc gap cliente.yaml -o informe.md', 'smc report cliente.yaml -o informe.html', 'smc dashboard clientes/ -o panel/', 'smc visor mapa.json -o visor.html', 'smc pmo proyecto.yaml --ics'],
   muro: 'Toda la sala en verde',
   grupos: [
     {marco: 'NIS2', n: 15, texto: 'controles'},
     {marco: 'ENS', n: 73, texto: 'medidas'},
     {marco: 'Transversal', n: 21, texto: 'controles'},
     {marco: 'Red', n: 20, texto: 'controles'},
+    {marco: 'RIA', n: 31, texto: 'obligaciones'},
   ],
   meta: 'El objetivo de cada cliente: todos los controles que aplican, implementados y con evidencia.',
   cta: 'Ver en GitHub',
