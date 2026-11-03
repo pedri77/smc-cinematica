@@ -96,12 +96,12 @@ export const flujo = {
     {
       titulo: 'Plan de acción',
       cuerpo: 'Cada brecha con responsable, fecha y estado, para seguirla hasta cerrarla.',
-      codigo: 'responsable · fecha · estado',
+      codigo: 'smc plan cliente.yaml',
     },
     {
       titulo: 'Informe y dashboard',
       cuerpo: 'Informe HTML por cliente y un dashboard estático con todos los clientes a la vista.',
-      codigo: 'HTML estático · multicliente',
+      codigo: 'smc report cliente.yaml -o informe.html',
     },
   ],
 };
@@ -174,8 +174,8 @@ export const modulos = {
       id: 'dashboard',
       etiqueta: 'Informes',
       titulo: 'Dashboard multicliente',
-      cuerpo: 'Informe HTML por cliente y un dashboard estático con todos los clientes: se abre en local, sin servidor.',
-      codigo: 'HTML estático',
+      cuerpo: 'Informe HTML autocontenido por cliente y un dashboard estático con todos los clientes en semáforo: se abre en local, sin servidor.',
+      codigo: 'smc dashboard clientes/ -o panel/',
     },
   ],
 };
@@ -188,7 +188,7 @@ export const cierre = {
     'Ejecución local u on-prem, en la UE.',
     'Catálogos en YAML, versionados y revisables.',
   ],
-  instalar: ['pip install -e .', 'smc validate', 'smc gap cliente.yaml -o informe.md'],
+  instalar: ['pip install -e .', 'smc validate', 'smc gap cliente.yaml -o informe.md', 'smc report cliente.yaml -o informe.html', 'smc dashboard clientes/ -o panel/'],
   muro: 'Toda la sala en verde',
   grupos: [
     {marco: 'NIS2', n: 15, texto: 'controles'},

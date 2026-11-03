@@ -131,7 +131,7 @@ export function Cierre() {
       </div>
 
       <div className="relative mt-[10svh] pb-[0.04em]" aria-hidden="true">
-        <span ref={marcaRef} className="inline-block font-mono leading-[0.9] font-bold whitespace-nowrap text-[#0f1a14] [text-shadow:0_0_80px_rgb(60_245_138/0.12)]">
+        <span ref={marcaRef} className="inline-block font-mono leading-[0.9] font-bold whitespace-nowrap text-[#16301f] [text-shadow:0_0_80px_rgb(60_245_138/0.18)]">
           {marca.corto}
         </span>
       </div>

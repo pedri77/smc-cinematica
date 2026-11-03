@@ -174,7 +174,7 @@ export function Radar() {
 
           {/* Capa 1–3: radar, barrido y ecos. */}
           <div
-            className="absolute top-[68px] left-1/2 aspect-square w-[min(84vw,40svh)] -translate-x-1/2 md:top-1/2 md:left-[68%] md:w-[min(46vw,80svh)] md:-translate-y-1/2"
+            className="absolute top-[100px] left-1/2 aspect-square w-[min(78vw,37svh)] -translate-x-1/2 md:top-1/2 md:left-[68%] md:w-[min(46vw,80svh)] md:-translate-y-1/2"
             aria-hidden="true"
           >
             <div ref={radarRef} className="relative size-full will-change-transform">

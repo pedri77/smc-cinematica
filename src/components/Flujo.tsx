@@ -20,8 +20,8 @@ const ALTO_VH = 420;
 const VENTANA = [0.06, 0.92] as const;
 const N = flujo.pasos.length;
 
-// Chips en una escalera de abajo a la izquierda a arriba a la derecha.
-const NODOS = [
+// Escritorio: chips en una escalera de abajo a la izquierda a arriba a la derecha.
+const NODOS_H = [
   {x: 110, y: 390},
   {x: 310, y: 250},
   {x: 520, y: 330},
@@ -29,17 +29,30 @@ const NODOS = [
   {x: 920, y: 250},
   {x: 1110, y: 90},
 ];
-const INICIO = {x: 0, y: 390};
+// Móvil: la pista baja en zigzag; las etiquetas van al lado contrario del chip.
+const NODOS_V = Array.from({length: 6}, (_, i) => ({x: i % 2 ? 370 : 90, y: 30 + i * 112}));
 const COLORES = ['var(--color-cian)', 'var(--color-cian)', 'var(--color-fosforo)', 'var(--color-rojo)', 'var(--color-ambar)', 'var(--color-fosforo)'];
 
-/** Pista de circuito: horizontal, chaflán a 45°, vertical, chaflán, horizontal. */
-function pista(a: {x: number; y: number}, b: {x: number; y: number}) {
+type P = {x: number; y: number};
+/** Pista de circuito horizontal: horizontal, chaflán a 45°, vertical, chaflán, horizontal. */
+function pistaH(a: P, b: P) {
   const mx = (a.x + b.x) / 2;
   const d = Math.min(24, Math.abs(b.y - a.y) / 2);
   const s = Math.sign(b.y - a.y) || 1;
   return `M${a.x} ${a.y} H${mx - d} L${mx} ${a.y + s * d} V${b.y - s * d} L${mx + d} ${b.y} H${b.x}`;
 }
-const TRAMOS = NODOS.map((b, i) => pista(i === 0 ? INICIO : NODOS[i - 1], b));
+/** Pista de circuito vertical: el mismo dibujo girado (vertical, chaflán, horizontal, chaflán, vertical). */
+function pistaV(a: P, b: P) {
+  const my = (a.y + b.y) / 2;
+  const d = Math.min(24, Math.abs(b.x - a.x) / 2);
+  const s = Math.sign(b.x - a.x) || 1;
+  return `M${a.x} ${a.y} V${my - d} L${a.x + s * d} ${my} H${b.x - s * d} L${b.x} ${my + d} V${b.y}`;
+}
+const DISENO = {
+  h: {nodos: NODOS_H, inicio: {x: 0, y: 390}, caja: '-20 40 1200 400', pista: pistaH},
+  v: {nodos: NODOS_V, inicio: {x: 90, y: -40}, caja: '0 -50 460 680', pista: pistaV},
+};
+const MQ = '(max-width: 767px)';
 
 export function Flujo() {
   const raizRef = useRef<HTMLElement>(null);
@@ -48,6 +61,16 @@ export function Flujo() {
   const puntoRef = useRef<SVGGElement>(null);
   const barraRef = useRef<HTMLSpanElement>(null);
   const [paso, setPaso] = useState(0);
+  const [vertical, setVertical] = useState(() => window.matchMedia(MQ).matches);
+  useEffect(() => {
+    const mq = window.matchMedia(MQ);
+    const cambio = () => setVertical(mq.matches);
+    mq.addEventListener('change', cambio);
+    return () => mq.removeEventListener('change', cambio);
+  }, []);
+  const D = vertical ? DISENO.v : DISENO.h;
+  const NODOS = D.nodos;
+  const TRAMOS = NODOS.map((b, i) => D.pista(i === 0 ? D.inicio : NODOS[i - 1], b));
 
   useEffect(() => {
     let pAnterior = -1;
@@ -76,7 +99,7 @@ export function Flujo() {
       });
       barraRef.current!.style.transform = `scaleX(${tramo(p, ...VENTANA)})`;
     });
-  }, []);
+  }, [vertical]);
 
   const p = flujo.pasos[paso];
 
@@ -94,7 +117,7 @@ export function Flujo() {
         </div>
 
         <div className="relative flex min-h-0 flex-1 items-center">
-          <svg viewBox="-20 40 1200 400" className="h-auto max-h-full w-full overflow-visible" role="img" aria-label={`Los ${N} pasos del flujo, unidos por una pista de circuito.`}>
+          <svg viewBox={D.caja} className="mx-auto h-auto max-h-full w-full overflow-visible" role="img" aria-label={`Los ${N} pasos del flujo, unidos por una pista de circuito.`}>
             <defs>
               <radialGradient id="halo-flujo">
                 <stop offset="0" stopColor="#3cf58a" stopOpacity="0.55" />
@@ -149,12 +172,21 @@ export function Flujo() {
                 <text x={n.x} y={n.y + 1} textAnchor="middle" dominantBaseline="middle" fontFamily="var(--font-mono)" fontWeight="700" fontSize="20" fill={i <= paso ? 'var(--c)' : '#62727f'}>
                   {String(i + 1).padStart(2, '0')}
                 </text>
-                <text x={n.x} y={n.y + 58} textAnchor="middle" fontFamily="var(--font-sans)" fontWeight="600" fontSize="19" fill={i === paso ? '#e7eef3' : '#62727f'} className="max-md:hidden">
+                <text
+                  x={vertical ? (i % 2 ? n.x - 44 : n.x + 44) : n.x}
+                  y={vertical ? n.y + 1 : n.y + 58}
+                  textAnchor={vertical ? (i % 2 ? 'end' : 'start') : 'middle'}
+                  dominantBaseline={vertical ? 'middle' : 'auto'}
+                  fontFamily="var(--font-sans)"
+                  fontWeight="600"
+                  fontSize={vertical ? 21 : 19}
+                  fill={i === paso ? '#e7eef3' : '#62727f'}
+                >
                   {flujo.pasos[i].titulo}
                 </text>
               </g>
             ))}
-            <g ref={puntoRef} transform={`translate(${INICIO.x} ${INICIO.y})`}>
+            <g ref={puntoRef} transform={`translate(${D.inicio.x} ${D.inicio.y})`}>
               <circle r="26" fill="url(#halo-flujo)" />
               <circle r="6" fill="#e7eef3" />
             </g>
