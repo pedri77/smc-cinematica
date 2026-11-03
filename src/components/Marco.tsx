@@ -21,20 +21,20 @@ const GitHub = () => (
 
 export function Cabecera() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between gap-3 px-4 py-3 sm:px-6 md:px-[6vw] md:py-4">
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex items-center justify-between gap-3 px-4 py-3 sm:px-6 md:px-[6vw] md:py-4">
       <a
         href="#inicio"
         onClick={(e) => {
           e.preventDefault();
           irA('#inicio');
         }}
-        className="flex items-center gap-2 font-mono text-[1rem] font-bold tracking-[0.08em] text-texto"
+        className="pointer-events-auto flex items-center gap-2 font-mono text-[1rem] font-bold tracking-[0.08em] text-texto"
         aria-label={marca.nombre}
       >
         <span className="inline-block size-2.5 rounded-full bg-fosforo shadow-[0_0_10px_rgb(60_245_138/0.9)]" aria-hidden="true" />
         {marca.corto}
       </a>
-      <div className="flex items-center gap-2">
+      <div className="pointer-events-auto flex items-center gap-2">
         <nav aria-label="Secciones" className="flex items-center gap-1 rounded-full border border-borde bg-superficie/80 p-1 backdrop-blur-sm max-md:hidden">
           {nav.map((n) => (
             <a
