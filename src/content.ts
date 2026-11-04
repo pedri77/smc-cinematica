@@ -11,6 +11,7 @@ export const nav = [
   {texto: 'Flujo', href: '#flujo'},
   {texto: 'Marcos', href: '#marcos'},
   {texto: 'Módulos', href: '#modulos'},
+  {texto: 'Demo', href: '#demo'},
 ];
 
 /** Estado de un control en el panel: cumplido, parcial o brecha. */
@@ -222,4 +223,16 @@ export const cierre = {
   cta: 'Ver en GitHub',
   aviso: 'Código abierto. Ilustraciones generadas por código, sin imágenes de IA.',
   firma: 'Hecho por pedri77',
+};
+
+export const demo = {
+  antetitulo: 'En un minuto',
+  titulo: 'Así se usa, con comandos reales.',
+  entradilla:
+    'Evaluación, informe y mapa de red de un cliente ficticio, de principio a fin. Todo se ejecuta en local.',
+  video: 'demo-smc.mp4',
+  poster: 'demo-smc.jpg',
+  etiqueta: 'Demostración de Security Manager Control en un minuto, con subtítulos',
+  guia: {texto: 'La guía de uso completa, en 8 vídeos', href: 'https://www.youtube.com/playlist?list=PLFVCkmnAUZ9g'},
+  nota: 'Datos ficticios de los ejemplos del repositorio. Voz sintética.',
 };
